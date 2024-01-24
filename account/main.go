@@ -4,10 +4,12 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	"github.com/ArtamonovDen/memo/handler"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,22 +18,20 @@ func main() {
 
 	// Graceful shutdown based on context instead of explicit signal handling
 	// https://github.com/gin-gonic/examples/blob/master/graceful-shutdown/graceful-shutdown/notify-with-context/server.go
-
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
 	// Set up router
-	router := gin.Default()
+	r := gin.Default()
 
-	router.GET("/api/account", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"hello": "folks",
-		})
-	})
+	handler.InitAccountHandlers(
+		&handler.RouteConfig{R: r},
+		os.Getenv("ACCOUNT_API_URL"),
+	)
 
 	server := &http.Server{
 		Addr:    ":8080",
-		Handler: router,
+		Handler: r,
 	}
 
 	go func() {

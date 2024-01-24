@@ -24,7 +24,7 @@ services:
       - "8080"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.account.rule=PathPrefix(`/api`)"
+      - "traefik.http.routers.account.rule=PathPrefix(`/api/account`)"
     environment:
       - ENV=dev
     volumes:
