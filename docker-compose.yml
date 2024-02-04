@@ -27,6 +27,8 @@ services:
       - "traefik.http.routers.account.rule=PathPrefix(`/api/account`)"
     environment:
       - ENV=dev
+    env_file:
+      - .env
     volumes:
       - ./account:/go/src/app
 
