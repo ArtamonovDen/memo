@@ -3,18 +3,13 @@ package handler
 import (
 	"net/http"
 
+	"github.com/ArtamonovDen/memo/model"
 	"github.com/gin-gonic/gin"
 )
 
 // AccountHandler struct contains handler functions for account api group
-type AccountHandler struct{}
-
-// Me handler calls services for getting user's details
-func (h *AccountHandler) Me(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"hello": "it's me",
-	})
-
+type AccountHandler struct {
+	UserService model.UserService
 }
 
 // Signup handler
