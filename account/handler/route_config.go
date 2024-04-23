@@ -1,21 +1,24 @@
 package handler
 
 import (
+	"github.com/ArtamonovDen/memo/model"
 	"github.com/gin-gonic/gin"
 )
 
 // Config will hold services that will eventually be injected into this
 // handler layer on handler initialization
 type RouteConfig struct {
-	R *gin.Engine
+	R           *gin.Engine
+	UserService model.UserService
 }
 
 // NewAccountHandler initializes account group handlers and inject them to app
 // by direct reference to the gin Engine
-func InitAccountHandlers(c *RouteConfig, accountGroupUrl string) {
+func NewAccountHandler(c *RouteConfig) {
 
-	h := &AccountHandler{}
-	g := c.R.Group(accountGroupUrl)
+	h := &AccountHandler{UserService: c.UserService}
+
+	g := c.R.Group("/api/account")
 
 	g.GET("/me", h.Me)
 	g.POST("/signup", h.Signup)

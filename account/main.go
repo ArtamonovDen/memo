@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"os"
 	"os/signal"
 	"syscall"
 	"time"
@@ -24,9 +23,8 @@ func main() {
 	// Set up router
 	r := gin.Default()
 
-	handler.InitAccountHandlers(
+	handler.NewAccountHandler(
 		&handler.RouteConfig{R: r},
-		os.Getenv("ACCOUNT_API_URL"),
 	)
 
 	server := &http.Server{
